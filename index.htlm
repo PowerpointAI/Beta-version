@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PresentPro - Modern Presentation Platform</title>
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVIGATION HEADER ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* ===== AUTHENTICATION BUTTONS ===== */
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .btn-signin {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-signin:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-signup {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* ===== SLIDE CONTAINER ===== */
+        .presentation-container {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        /* ===== INDIVIDUAL SLIDE STYLES ===== */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            text-align: center;
+            background: white;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ===== SLIDE VARIATIONS ===== */
+        .slide-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide-features {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .slide-about {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .slide-contact {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .slide-portfolio {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        .slide-testimonials {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        .slide h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: slideInDown 1s ease-out;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .slide p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            line-height: 1.8;
+            animation: slideInUp 1s ease-out 0.3s both;
+        }
+
+        .slide-large-text {
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* ===== FEATURE GRID ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 900px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+            max-width: 800px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* ===== TESTIMONIAL CARDS ===== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            color: #555;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .testimonial-role {
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+
+        /* ===== CALL TO ACTION ===== */
+        .cta-section {
+            margin-top: 3rem;
+        }
+
+        .cta-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            border: 2px solid white;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+
+        .cta-button:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== PORTFOLIO ITEMS ===== */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 900px;
+        }
+
+        .portfolio-item {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .portfolio-content {
+            padding: 1.5rem;
+        }
+
+        .portfolio-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-description {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .slide {
+                margin: 1rem;
+                padding: 2rem 1rem;
+                min-height: 80vh;
+            }
+
+            .slide h1 {
+                font-size: 2.5rem;
+            }
+
+            .slide h2 {
+                font-size: 2rem;
+            }
+
+            .slide p {
+                font-size: 1.1rem;
+            }
+
+            .features-grid,
+            .stats-grid,
+            .testimonials-grid,
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .presentation-container {
+                margin-top: 120px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+        .btn:focus,
+        .cta-button:focus {
+            outline: 3px solid #ffcc00;
+            outline-offset: 2px;
+        }
+
+        .slide {
+            scroll-margin-top: 100px;
+        }
+
+        /* ===== DECORATIVE ELEMENTS ===== */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            pointer-events: none;
+        }
+
+        .slide-hero::before {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.2)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION HEADER ===== -->
+    <nav class="navbar">
+        <a href="#home" class="logo">PresentPro</a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="#" class="btn btn-signin">Sign In</a>
+            <a href="#" class="btn btn-signup">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- ===== PRESENTATION CONTAINER ===== -->
+    <div class="presentation-container">
+        <!-- ===== HERO SLIDE ===== -->
+        <section class="slide slide-hero" id="home">
+            <h1>Welcome to PresentPro</h1>
+            <p class="slide-large-text">Create stunning presentations with our modern, intuitive platform. Designed for professionals who demand excellence in their visual communications.</p>
+            <div class="cta-section">
+                <a href="#features" class="cta-button">Explore Features</a>
+            </div>
+        </section>
+
+        <!-- ===== FEATURES SLIDE ===== -->
+        <section class="slide slide-features" id="features">
+            <h2>Powerful Features</h2>
+            <p>Everything you need to create professional presentations that captivate your audience and deliver your message with impact.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Beautiful Templates</h3>
+                    <p>Choose from dozens of professionally designed templates that suit any industry or presentation style.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Create and edit presentations with incredible speed using our optimized interface and smart tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Team Collaboration</h3>
+                    <p>Work together seamlessly with your team in real-time, sharing ideas and feedback instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Multi-Device</h3>
+                    <p>Access your presentations anywhere, anytime. Works perfectly on desktop, tablet, and mobile.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data is protected with enterprise-grade security and privacy controls you can trust.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>Track engagement and performance with detailed analytics and presentation insights.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ABOUT SLIDE ===== -->
+        <section class="slide slide-about" id="about">
+            <h2>About PresentPro</h2>
+            <p>We're revolutionizing the way professionals create and deliver presentations. Our platform combines cutting-edge technology with intuitive design to help you tell your story with impact.</p>
+            <p>Founded by presentation experts and technology enthusiasts, we understand the challenges of creating compelling visual content. That's why we've built a platform that makes professional presentation design accessible to everyone.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">500K+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2M+</div>
+                    <div class="stat-label">Presentations Created</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Countries Served</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PORTFOLIO SLIDE ===== -->
+        <section class="slide slide-portfolio" id="portfolio">
+            <h2>Our Work</h2>
+            <p>Discover the amazing presentations our users have created with PresentPro. From corporate boardrooms to creative agencies, see how professionals worldwide trust our platform.</p>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="portfolio-image">📈</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-title">Business Strategy</div>
+                        <div class="portfolio-description">Comprehensive quarterly review presentation for Fortune 500 company.</div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">🎯</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-title">Marketing Campaign</div>
+                        <div class="portfolio-description">Creative pitch deck that secured $2M investment for startup launch.</div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">🔬</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-title">Research Findings</div>
+                        <div class="portfolio-description">Academic presentation showcasing breakthrough medical research.</div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">🏗️</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-title">Project Proposal</div>
+                        <div class="portfolio-description">Architectural firm's winning proposal for sustainable city development.</div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">💡</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-title">Innovation Showcase</div>
+                        <div class="portfolio-description">Tech company's product launch presentation at major conference.</div>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">🎓</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-title">Educational Content</div>
+                        <div class="portfolio-description">University's engaging lecture series on digital transformation.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TESTIMONIALS SLIDE ===== -->
+        <section class="slide slide-testimonials" id="testimonials">
+            <h2>What Our Users Say</h2>
+            <p>Don't just take our word for it. Hear from the professionals who use PresentPro every day to create presentations that make a difference.</p>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        "PresentPro transformed how our team creates presentations. The collaborative features and beautiful templates save us hours every week while delivering professional results every time."
+                    </div>
+                    <div class="testimonial-author">Sarah Chen</div>
+                    <div class="testimonial-role">Marketing Director, TechCorp</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        "As a consultant, I need to create compelling presentations quickly. PresentPro's intuitive interface and powerful features help me deliver exceptional work for my clients."
+                    </div>
+                    <div class="testimonial-author">Michael Rodriguez</div>
+                    <div class="testimonial-role">Senior Consultant, Strategy Plus</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        "The analytics feature is a game-changer. I can see exactly how my audience engages with my presentations and optimize them for maximum impact."
+                    </div>
+                    <div class="testimonial-author">Emily Watson</div>
+                    <div class="testimonial-role">Sales Manager, Global Solutions</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CONTACT SLIDE ===== -->
+        <section class="slide slide-contact" id="contact">
+            <h2>Ready to Get Started?</h2>
+            <p>Join thousands of professionals who trust PresentPro for their presentation needs. Start your journey today and experience the difference professional design can make.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📧</div>
+                    <h3>Email Support</h3>
+                    <p>hello@presentpro.com<br>Response within 2 hours</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Phone Support</h3>
+                    <p>+1 (555) 123-4567<br>Available 9 AM - 6 PM EST</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Live Chat</h3>
+                    <p>Instant help available<br>24/7 support team</p>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <a href="#" class="cta-button">Start Free Trial</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
